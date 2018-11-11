@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+SECONDS=0
+
+cd backend
+git pull -r
+
+cd ..
+
+gcloud app deploy backend/app.yaml --version dev --quiet --promote
+
+duration=$SECONDS
+echo "$(($duration / 60)) minutes and $(($duration % 60)) seconds elapsed."
+date
+

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+cp clone ../clone
+cp deploy ../deploy
+cp sd ../sd
+cp st ../st
+cp .envrc ../.envrc
+cd ..
+direnv allow
+clone
+

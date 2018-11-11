@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+declare -a repos=(
+'git@github.com:cloud-demos/promo-secrets.git'
+'git@github.com:cloud-demos/promo-api.git'
+)
+
+declare -a names=(
+ 'secrets'
+ 'backend'
+)
+
+clone_repos () {
+
+    for i in "${!repos[@]}"; do
+        rm -rf "${names[$i]}"
+        git clone --branch dev "${repos[$i]}" "${names[$i]}"
+    done
+
+    cp -R secrets/keys/* backend/src/
+
+    cd backend
+    direnv allow
+    pip install jinja2
+    git config filter.secrets-manager.clean 'python3 ../secrets/wd2repo.py %f'
+    git config filter.secrets-manager.smudge 'python3 ../secrets/repo2wd.py'
+
+    rm -Rf src/config.py
+    rm -Rf src/app.yaml
+    git checkout HEAD -- .
+
+    pip install -r src/requirements.txt
+
+    cd ..
+
+}
+
+clone_repos

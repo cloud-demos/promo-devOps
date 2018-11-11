@@ -1,0 +1,59 @@
+
+== Pre dev installs
+
+[source,shell]
+----
+
+mkdir -p $HOME/appslnx/bin
+cd $HOME/appslnx/bin
+wget https://github.com/direnv/direnv/releases/download/v2.17.0/direnv.linux-amd64
+mv direnv.linux-amd64 direnv
+chmod +x direnv
+
+echo 'export PATH="$PATH:$HOME/appslnx/bin"' >> ~/.bashrc
+echo 'eval "$(direnv hook bash)"' >> ~/.bashrc
+# eval "$(direnv hook zsh)"
+
+----
+
+
+== First time deployment
+
+
+Before cloning the repos:
+
+To use the git filters, run this out of any Python virtual environment:
+
+`pip3 install jinja2 --upgrade --user`
+
+Then, to clone the repos like this:
+
+[source,shell]
+----
+git clone --branch dev git@github.com:cloud-demos/promo-devOps.git devOps
+cd devOps
+direnv allow
+prepare
+----
+
+== Daily servers start
+
+[source,shell]
+----
+st
+----
+
+== Deployment
+
+[source,shell]
+----
+deploy
+----
+
+== Daily shutdown
+
+[source,shell]
+----
+sd
+----
+
